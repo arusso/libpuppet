@@ -1,0 +1,4 @@
+*.pem
+test.rb
+doc/
+*~
