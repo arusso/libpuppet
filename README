@@ -1,0 +1,8 @@
+= Purpose
+Provides a simple library for querying a puppet master via the RESTful API.
+Test against puppet 2.6 from EPEL.
+
+= Future Objectives
+* Find a suitable REST client library rather than rely on curl
+* Refactor for better structure
+* Implement more of the API
