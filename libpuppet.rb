@@ -15,7 +15,7 @@ class LibPuppet
       # get the puppet master ca
       @_ca_cert = %x[curl --insecure -H 'Accept: s' "https://#{@_server}:8140/production/certificate/ca" 2>/dev/null]
       # write cert to file
-      File.open(File.dirname(__FILE__)+"/#{@_server}.pem",'w') {|f| f.write(@_ca_cert)}  # write our ca cert to file  
+      #File.open(File.dirname(__FILE__)+"/#{@_server}.pem",'w') {|f| f.write(@_ca_cert)}  # write our ca cert to file  
     end
   end
   
@@ -31,7 +31,7 @@ class LibPuppet
   end
   
   # Returns a list of hosts with the given fact
-  def hosts_with_fact(factname="inventory")
+  def hosts_with_fact(factname)
     get("/production/facts_search/#{factname}",false)            
   end
   
