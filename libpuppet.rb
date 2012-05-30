@@ -3,6 +3,8 @@ require 'rubygems'
 require 'yaml'
 require 'puppet'
 
+
+# Simple ruby library for the Puppet 2.6.x API
 class LibPuppet
   
   # Initialize the LibPuppet class
@@ -19,7 +21,7 @@ class LibPuppet
     end
   end
   
-  # get node information
+  # get request
   def get(uri,raw=false)
     raw = self._get_raw(uri)  # get the raw response
     
@@ -31,8 +33,21 @@ class LibPuppet
   end
   
   # Returns a list of hosts with the given fact
-  def hosts_with_fact(factname)
+  #
+  def nodes_with_fact(factname)
     get("/production/facts_search/#{factname}",false)            
+  end
+
+  # Returns a list of all nodes
+  #
+  # this takes advantage of the broken API call that returns ALL nodes when you
+  # dont format a fact_search properly
+  def all_nodes
+    get("/production/facts_search/all_nodes",false)
+  end
+
+  def node(name, env="production")
+    get("/#{env}/node/#{name}",false)
   end
   
     # get raw response
