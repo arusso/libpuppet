@@ -39,7 +39,7 @@ class LibPuppet
   end
 
   def node(name, env="production")
-    get("/#{env}/node/#{name}",false)
+    get("/#{env}/facts/#{name}",false)
   end
   
     # get raw response
