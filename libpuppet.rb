@@ -35,7 +35,7 @@ class LibPuppet
   #
   # we assume all nodes have a processor (safe, right?)
   def all_nodes
-    get("/production/facts_search/facts.processorcount.ge=0",false)
+    get("/production/facts_search/search?facts.processorcount.ge=0",false)
   end
 
   def node(name, env="production")
