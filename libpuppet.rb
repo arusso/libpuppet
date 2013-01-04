@@ -2,7 +2,7 @@
 require 'rubygems'
 require 'yaml'
 require 'puppet'
-
+require 'restclient'
 
 # Simple ruby library for the Puppet 2.6.x API
 class LibPuppet
@@ -12,13 +12,6 @@ class LibPuppet
     # set some instance vars
     @_server = master
     
-    # do we have a copy of the cert?
-    if not File.exists?(File.dirname(__FILE__)+"/#{@_server}.pem")
-      # get the puppet master ca
-      @_ca_cert = %x[curl --insecure -H 'Accept: s' "https://#{@_server}:8140/production/certificate/ca" 2>/dev/null]
-      # write cert to file
-      #File.open(File.dirname(__FILE__)+"/#{@_server}.pem",'w') {|f| f.write(@_ca_cert)}  # write our ca cert to file  
-    end
   end
   
   # get request
@@ -40,10 +33,9 @@ class LibPuppet
 
   # Returns a list of all nodes
   #
-  # this takes advantage of the broken API call that returns ALL nodes when you
-  # dont format a fact_search properly
+  # we assume all nodes have a processor (safe, right?)
   def all_nodes
-    get("/production/facts_search/all_nodes",false)
+    get("/production/facts_search/facts.processorcount.ge=0",false)
   end
 
   def node(name, env="production")
@@ -52,7 +44,8 @@ class LibPuppet
   
     # get raw response
   def _get_raw(uri)
-    %x[curl -k -H 'Accept: yaml' https://#@_server:8140#{uri} 2>/dev/null]   
+      RestClient.get "https://#@_server:8140#{uri}", { :accept => 'Yaml' }
+      #%x[curl -k -H 'Accept: yaml' https://#@_server:8140#{uri} 2>/dev/null]   
   end
 end # LibPuppet
 
