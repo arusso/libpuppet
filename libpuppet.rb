@@ -45,7 +45,6 @@ class LibPuppet
     # get raw response
   def _get_raw(uri)
       RestClient.get "https://#@_server:8140#{uri}", { :accept => 'Yaml' }
-      #%x[curl -k -H 'Accept: yaml' https://#@_server:8140#{uri} 2>/dev/null]   
   end
 end # LibPuppet
 
